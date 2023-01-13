@@ -47,8 +47,21 @@ Order of operations applies and you don't need to add an '=' sign.
 ```{r}
 (4*12)/2
 ```
+### To add code chunk, use Ctrl+Alt+I or use the C button in top-left of this window
+```{r}
 
+```
+### Can also manually type out "\`\`\`{r}" and then "```" to close chunk
+```{r}
+2*(2+5)/3
+```
+```{r}
+1*2
+```
 Statistics are what R was originally written for and there are thousands of packages for specialized statistics depending on your needs.  
+```{r}
+
+```
 
 First, we need to make a vector or string of values which we will store as an object x. More on this later...
 ```{r}
@@ -63,6 +76,10 @@ mean(x)
 We can do the same thing for median.  
 ```{r}
 median(x)
+```
+### Standard deviation
+```{r}
+sd(x)
 ```
 
 ## RMarkdown  

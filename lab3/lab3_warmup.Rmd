@@ -1,0 +1,40 @@
+---
+title: "Lab 3 Warm-Up"
+author: "Jacob Yousif"
+date: "2023-01-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Setting up the data variables:
+```{r}
+#Setup data
+plant_heights <- c(30.7, 37.6, 28.4, NA, 33.2)
+plant_masses <- c(4, 5.2, 3.7, NA, 4.6)
+plant_data <- c(plant_heights, plant_masses)
+```
+### Setting up the data labels:
+```{r}
+#Setup labels
+plant_samplenums <- c("plant1", "plant2", "plant3", "plant4", "plant5")
+plant_measurements <- c("height", "mass")
+```
+### Creating the matrix:
+```{r}
+plant_mtx <- matrix(plant_data, nrow = 5, ncol = 2)
+
+colnames(plant_mtx) <- plant_measurements
+rownames(plant_mtx) <- plant_samplenums
+
+plant_mtx
+```
+### Adding column means to matrix:
+```{r}
+avgs <- colMeans(plant_mtx, na.rm = T) #Ignores NA values
+plant_mtx2 <- rbind (plant_mtx, avgs)
+plant_mtx2
+```
+

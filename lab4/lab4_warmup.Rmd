@@ -1,0 +1,42 @@
+---
+title: "lab4_warmup"
+author: "Jacob Yousif"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Load new package "palmerpenguins":
+```{r}
+library("tidyverse")
+#install.packages("palmerpenguins") #First-time install new package
+library("palmerpenguins")
+```
+
+2. Dimensions:
+```{r}
+dim(penguins)
+```
+344 rows, 8 columns
+
+3. Variable names:
+```{r}
+colnames(penguins)
+```
+
+4. Individuals sampled on each island:
+```{r}
+table(penguins$island)
+```
+168 individuals on Biscoe Island, 124 individuals on Dream Island, and 52 individuals on Torgersen Island
+
+5. Mean body mass for all penguins:
+```{r}
+mean(penguins$body_mass_g, na.rm = T)
+```
+About 4202g

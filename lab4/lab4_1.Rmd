@@ -2,10 +2,11 @@
 title: "Transforming data 1: Dplyr `select()`"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -64,10 +65,10 @@ names(fish)
 
 We are only interested in lakeid and scalelength.
 ```{r}
-select(fish, "lakeid", "scalelength")
+select(fish, "lakeid", "scalelength") #format: select(dataframe, "vec1", "vec2", etc)
 ```
 
-To add a range of columns use `start_col:end_col`.
+To add a range of columns use `"start_col":"end_col"`.
 ```{r}
 fish
 ```
@@ -88,7 +89,7 @@ names(fish)
 ```
 
 ```{r}
-select(fish, contains("length"))
+select(fish, contains("length")) #contains() is an operator
 ```
 
 When columns are sequentially named, `starts_with()` makes selecting columns easier.
@@ -116,7 +117,7 @@ select(fish, contains("fish"))
 
 We won't cover [regex](https://en.wikipedia.org/wiki/Regular_expression) in this class, but the following code is helpful when you know that a column contains a letter (in this case "a") followed by a subsequent string (in this case "er").  
 ```{r}
-select(fish, matches("a.+er"))
+select(fish, matches("a.+er")) #know that operators for select() take regex
 ```
 
 You can also select columns based on the class of data.  
@@ -142,42 +143,46 @@ mammals <- readr::read_csv("data/mammal_lifehistories_v2.csv")
 
 1. Use one or more of your favorite functions to assess the structure of the data.  
 ```{r}
-
+glimpse(mammals)
 ```
 
 2. Are there any NAs? Are you sure? Try taking an average of `max. life` as a test.  
 ```{r}
-
+anyNA(mammals) #Says no but lies
+mean(mammals$`max. life`) #There are NAs, but they're represented by -999
 ```
+
 
 3. What are the names of the columns in the `mammals` data?
 ```{r}
-
+colnames(mammals)
 ```
 
 4. Rename any columns that have capitol letters or punctuation issues.  
 ```{r}
-
+mammals_new <- rename(mammals, genus = Genus, wean_mass = `wean mass`, afr = AFR, max_life = `max. life`, litter_size = `litter size`, litters_per_yr = `litters/year`) #rename function makes this easier
+names(mammals_new)
 ```
 
 5. We are only interested in the variables `genus`, `species`, and `mass`. Use `select()` to build a new dataframe `mass` focused on these variables.
 ```{r}
-
+mass <- select(mammals_new, "genus", "species", "mass")
+mass
 ```
 
 6. What if we only wanted to exclude `order` and `family`? Use the `-` operator to make the code efficient.
 ```{r}
-
+select(mammals_new, -order, -family)
 ```
 
 7. Select the columns that include "mass" as part of the name.  
 ```{r}
-
+select(mammals_new, contains("mass"))
 ```
 
 8. Select all of the columns that are of class `character`.  
 ```{r}
-
+select_if(mammals_new, is.character)
 ```
 
 ## Other
@@ -185,12 +190,13 @@ Here are two examples of code that are super helpful to have in your bag of tric
 
 Imported data frames often have a mix of lower and uppercase column names. Use `toupper()` or `tolower()` to fix this issue. I always try to use lowercase to keep things consistent.  
 ```{r}
-#mammals <- select_all(mammals, tolower)
+mammals_new_2 <- select_all(mammals, tolower)
+names(mammals_new_2)
 ```
 
 When naming columns, blank spaces are often added (don't do this, please). Here is a trick to remove these.  
 ```{r}
-#select_all(mammals, ~str_replace(., " ", "_"))
+select_all(mammals, ~str_replace(., " ", "_")) #str.replace(period with nothing, "space" with "underscore")
 ```
 
 ## That's it! Let's take a break and then move on to part 2! 

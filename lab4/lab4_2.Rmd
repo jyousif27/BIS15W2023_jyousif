@@ -149,7 +149,8 @@ summary(select(mammals_focus_2, genus, mass, gestation, newborn))
 ```
 
 ```{r}
-min(select(mammals_focus_2, genus, mass, gestation, newborn)) #fix
+min(select(mammals_focus_2, newborn))
+filter(mammals_focus_2, newborn == 389.5)
 ```
 
 ## Wrap-up  

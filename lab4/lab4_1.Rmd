@@ -196,7 +196,7 @@ names(mammals_new_2)
 
 When naming columns, blank spaces are often added (don't do this, please). Here is a trick to remove these.  
 ```{r}
-select_all(mammals, ~str_replace(., " ", "_")) #str.replace(period with nothing, "space" with "underscore")
+select_all(mammals, ~str_replace(., " ", "_")) #str_replace(period with nothing, "space" with "underscore")
 ```
 
 ## That's it! Let's take a break and then move on to part 2! 

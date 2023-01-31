@@ -30,23 +30,49 @@ Wikipedia's definition of [data science](https://en.wikipedia.org/wiki/Data_scie
 
 1. (2 points) Consider the definition of data science above. Although we are only part-way through the quarter, what specific elements of data science do you feel we have practiced? Provide at least one specific example.  
 
+We have used R functions to extract some (limited) insights from data, such as `mean()` or `summary()`, and learned to examine certain subsets of data with `select()` and `filter()`. We have also used R to make data more readable, such as by constructing data tables, standardizing column names with `colnames()`, and dealing with NAs/gaps in data.
+
 2. (2 points) What is the most helpful or interesting thing you have learned so far in BIS 15L? What is something that you think needs more work or practice?  
+
+The most helpful thing I think I've learned so far is how to build and use data frames to organize data. Learning about how to structure data so that it can be read and manipulated easily is important for a lot of things.
 
 In the midterm 1 folder there is a second folder called `data`. Inside the `data` folder, there is a .csv file called `ElephantsMF`. These data are from Phyllis Lee, Stirling University, and are related to Lee, P., et al. (2013), "Enduring consequences of early experiences: 40-year effects on survival and success among African elephants (Loxodonta africana)," Biology Letters, 9: 20130011. [kaggle](https://www.kaggle.com/mostafaelseidy/elephantsmf).  
 
 3. (2 points) Please load these data as a new object called `elephants`. Use the function(s) of your choice to get an idea of the structure of the data. Be sure to show the class of each variable.
 
+```{r}
+elephants <- readr::read_csv("data/ElephantsMF.csv")
+```
 
 4. (2 points) Change the names of the variables to lower case and change the class of the variable `sex` to a factor.
-
+```{r}
+elephants <- clean_names(elephants)
+class(elephants$sex) <- factor
+```
 
 5. (2 points) How many male and female elephants are represented in the data?
-
+```{r}
+tabyl(elephants, sex)
+```
+150 female elephants, 138 male elephants
 
 6. (2 points) What is the average age all elephants in the data?
-
+```{r}
+mean(elephants$age)
+```
+Mean age is about 10.97 years
 
 7. (2 points) How does the average age and height of elephants compare by sex?
+```{r}
+glimpse(elephants)
+```
+
+```{r}
+elephants %>% 
+  filter(sex == M) %>%
+  mean()
+mean(filter(elephants, sex == F))
+```
 
 
 8. (2 points) How does the average height of elephants compare by sex for individuals over 20 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.  

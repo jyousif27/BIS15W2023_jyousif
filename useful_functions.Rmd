@@ -18,8 +18,9 @@ library(palmerpenguins)
 ```
 
 ```{r}
-data <- palmerpenguins::penguins
+data <- palmerpenguins::penguins #Sets up data as a practice dataset
 ```
+Note: many of he commands in this doc will not run properly. This is because the data has been messed up by all the previous commands.
 
 ##Examining Data Tables
 #Bring datasets into R
@@ -31,20 +32,35 @@ data.frame(data) #Creates a data frame from the values in data (data can be a ve
 #Getting an idea of a dataset's structure
 ```{r}
 data #Prints whole dataset
+data$species #Prints just the column specified by $ (here, it is "species")
 dim(data) #Prints "<number of rows> <number of columns>"
 colnames(data) #Prints column names
 names(data) #Same as colnames()
 glimpse(data) #Prints rows, columns, colnames and types, and the first few rows of each column
 summary(data) #Prints colnames and shows statistical overview for each column's contents (min/max values, quartiles, median, mean, number of NAs)
+
+table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
+tabyl(data$species) #Same as table(), but returns in a fancy data frame
+#Note: can do table/yl(data$species) or (data, species). The latter returns a nicer variable name.
 ```
 ```{r}
 colnames(data)
 ```
 
 ##Manipulating Data
+#Cleaning up data
+```{r}
+clean_names(data) #Returns entire dataset with cleaned-up names. Changes all names to lowercase and replaces all special characters with "_". 
+#Remember to do data <- clean_names(data); it won't actually affect the dataset unless the data are replaced. 
+#Also note that the return is an entire data table, not just the colnames.
+colnames(data) <- c("name1", "name2", "...") #Assigns the values of names to be the column names of (data)
+```
+
 #Selecting data subsets
 ```{r}
 select(data, species, sex, bill_length_mm) #Selects columns
 filter(data, sex == "male") #Selects rows based on whether the variable(s) match the selection criteria
+table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
+tabyl(data$species) #Same as table(), but returns in a fancy data frame
 ```
 

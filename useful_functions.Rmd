@@ -1,0 +1,50 @@
+---
+title: "Useful Functions for R Data Management"
+author: "Jacob Yousif"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Useful Libraries
+```{r}
+library(tidyverse)
+library(janitor)
+#This is just a practice dataset
+library(palmerpenguins)
+```
+
+```{r}
+data <- palmerpenguins::penguins
+```
+
+##Examining Data Tables
+#Bring datasets into R
+```{r}
+read_csv("filepath") #Finds a CSV file specified by "filepath" and loads it into R as a data frame
+data.frame(data) #Creates a data frame from the values in data (data can be a vector, matrix, or subset of a data frame)
+```
+
+#Getting an idea of a dataset's structure
+```{r}
+data #Prints whole dataset
+dim(data) #Prints "<number of rows> <number of columns>"
+colnames(data) #Prints column names
+names(data) #Same as colnames()
+glimpse(data) #Prints rows, columns, colnames and types, and the first few rows of each column
+summary(data) #Prints colnames and shows statistical overview for each column's contents (min/max values, quartiles, median, mean, number of NAs)
+```
+```{r}
+colnames(data)
+```
+
+##Manipulating Data
+#Selecting data subsets
+```{r}
+select(data, species, sex, bill_length_mm) #Selects columns
+filter(data, sex == "male") #Selects rows based on whether the variable(s) match the selection criteria
+```
+

@@ -33,12 +33,13 @@ fisheries <- readr::read_csv(file = "data/FAO_1950to2012_111914.csv")
 
 1. Do an exploratory analysis of the data (your choice). What are the names of the variables, what are the dimensions, are there any NA's, what are the classes of the variables?  
 ```{r}
-
+glimpse(fisheries) #shows dims, var names and classes
+anyNA(fisheries) 
 ```
 
 2. Use `janitor` to rename the columns and make them easier to use. As part of this cleaning step, change `country`, `isscaap_group_number`, `asfis_species_number`, and `fao_major_fishing_area` to data class factor. 
 ```{r}
-
+fisheries <- clean_names(fisheries)
 ```
 
 ```{r}

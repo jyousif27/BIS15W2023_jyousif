@@ -11,8 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##Useful Libraries
 ```{r}
-library(tidyverse)
-library(janitor)
+library(tidyverse) #Does a lot of stuff that makes data outputs neater
+library(janitor) #Helps clean variable names
+library(naniar) #Helps manage NAs
 #This is just a practice dataset
 library(palmerpenguins)
 ```
@@ -39,6 +40,9 @@ names(data) #Same as colnames()
 glimpse(data) #Prints rows, columns, colnames and types, and the first few rows of each column
 summary(data) #Prints colnames and shows statistical overview for each column's contents (min/max values, quartiles, median, mean, number of NAs)
 
+any_na(data) #Returns TRUE if there are NAs in a dataset, and FALSE if there are not
+miss_var_summary(data) #Displays how many NAs per variable, as well as percentage of variable that is made up of NAs
+
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
 tabyl(data$species) #Same as table(), but returns in a fancy data frame
 #Note: can do table/yl(data$species) or (data, species). The latter returns a nicer variable name.
@@ -51,9 +55,11 @@ colnames(data)
 #Cleaning up data
 ```{r}
 clean_names(data) #Returns entire dataset with cleaned-up names. Changes all names to lowercase and replaces all special characters with "_". 
-#Remember to do data <- clean_names(data); it won't actually affect the dataset unless the data are replaced. 
-#Also note that the return is an entire data table, not just the colnames.
+  #Remember to do data <- clean_names(data); it won't actually affect the dataset unless the data are replaced. 
+  #Also note that the return is an entire data table, not just the colnames.
 colnames(data) <- c("name1", "name2", "...") #Assigns the values of names to be the column names of (data)
+
+na_if(data, "-999") #If a value matches the value in quotes, replace it with an NA
 ```
 
 #Selecting data subsets
@@ -62,5 +68,41 @@ select(data, species, sex, bill_length_mm) #Selects columns
 filter(data, sex == "male") #Selects rows based on whether the variable(s) match the selection criteria
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
 tabyl(data$species) #Same as table(), but returns in a fancy data frame
+group_by(data$species) #Assigns an invisible number to categories in a dataset which then allows other functions to perform actions by category rather than by individual entry. (e.g. male = 0, female = 1, then summarize(avg = mean(height)) will give all male height and all female height)
+```
+
+#Adding/removing entries
+```{r}
+mutate()
+```
+
+#Creating data structures
+```{r}
+c("value1, value2, value3") #Creates a vector from data
+data.frame(data) #Creates a data frame from a dataset (vector, matrix, or existing dataframe)
+```
+
+##Analysis of Data
+#Creating Analysis Figures
+```{r}
+summarize(data, sum1 = function1(value1), sum2 = function2(value2)) #Creates a data frame containing a summary of functions. Computes function1 on all variables in value1, then stores the result in sum1, and does that for each subsequent variable.
+  n() #Gives number of entries in a set
+  n_distinct() #Gives number of distinct variables in a set
+  across(c(values), function()) #Computes function() for each variable in c(values)
+  
+hist(data$variable) #Automatically creates a histogram (bar chart) showing values in a vector
+```
+
+#Statistics
+```{r}
+mean() #Arithmetic mean
+stats::sd() #Standard deviation
+```
+
+##Uncategorized
+```{r}
+count()
+tally()
+is.na(data) #Logically evaluates each value. Returns T if value == NA, F if value has a value.
 ```
 

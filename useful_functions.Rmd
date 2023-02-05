@@ -41,6 +41,8 @@ glimpse(data) #Prints rows, columns, colnames and types, and the first few rows 
 summary(data) #Prints colnames and shows statistical overview for each column's contents (min/max values, quartiles, median, mean, number of NAs)
 
 any_na(data) #Returns TRUE if there are NAs in a dataset, and FALSE if there are not
+  # Note: Is from naniar. Has equivalent `anyNA` in base; not sure of the difference
+n_miss(data) #Returns the number of total NAs in a dataset
 miss_var_summary(data) #Displays how many NAs per variable, as well as percentage of variable that is made up of NAs
 
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector

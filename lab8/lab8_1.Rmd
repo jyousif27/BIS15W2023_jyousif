@@ -80,11 +80,11 @@ heartrate
 
 Let's assess whether or not these data are tidy.  
 (1) each variable has its own column?  
- 
+   No; there is no column for "drug patient was treated with"
 (2) each observation has its own row?  
-
+   No; each row contains four observations, one for each drug
 (3) each value has its own cell?  
-  
+   Yes
 To fix this problem, we need to reshape the table to long format while keeping track of column names and values. We do this using `pivot_longer()`. Notice that the dimensions of the data frame change.  
 ```{r}
 heartrate %>% 
@@ -150,7 +150,7 @@ billboard %>%
    pivot_longer(
    cols = starts_with("wk"),
    names_to = "week",
-   names_prefix = "wk",
+   names_prefix = "wk", #says "this part of the name in each value is a prefix. remove it when converting to a variable.
    values_to = "rank",
    values_drop_na = TRUE)
 ```
@@ -171,12 +171,19 @@ names(plant_data)
 
 3. Use `pivot_longer()` to make the data tidy. Focus the data only on genotype, water_sched_prog, and greenhouse.  
 ```{r}
+#plant_data %>% 
+#  pivot_longer(-c(genotype, water_sched_prog, #greenhouse),
+#               names_to = "v1",
+#               values_to = "v2",
+#               values_drop_na = T
+#               )
+#or:
 plant_data %>% 
-  pivot_longer(-c(genotype, water_sched_prog, greenhouse),
-               names_to = "v1",
-               values_to = "v2",
-               values_drop_na = T
-               )
+  pivot_longer(-c(genotype, water_sched_prog, greenhouse), 
+               names_to = "day", 
+               names_prefix = "day", #this leaves us with "day: 1, 2, 3" instead of "day: day1, day2, day3"
+               values_to = "v1", 
+               values_drop_na = T)
 ```
 
 ## Example 3: more than one variable in a column name

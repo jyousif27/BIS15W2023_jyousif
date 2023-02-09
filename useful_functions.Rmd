@@ -84,6 +84,13 @@ c("value1, value2, value3") #Creates a vector from data
 data.frame(data) #Creates a data frame from a dataset (vector, matrix, or existing dataframe)
 ```
 
+#Changing entries
+```{r}
+pivot_longer(data)
+pivot_wider(data)
+separate()
+```
+
 ##Analysis of Data
 #Creating Analysis Figures
 ```{r}

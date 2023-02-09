@@ -14,6 +14,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) #Does a lot of stuff that makes data outputs neater
 library(janitor) #Helps clean variable names
 library(naniar) #Helps manage NAs
+```
+
+```{r}
+library(ggplot2) #Quickly make/edit charts and graphs
+```
+
+
+```{r}
 #This is just a practice dataset
 library(palmerpenguins)
 ```
@@ -67,6 +75,7 @@ na_if(data, "-999") #If a value matches the value in quotes, replace it with an 
 #Selecting data subsets
 ```{r}
 select(data, species, sex, bill_length_mm) #Selects columns
+  #Note: can also be used to sort columns; will output columns   in order listed
 filter(data, sex == "male") #Selects rows based on whether the variable(s) match the selection criteria
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
 tabyl(data$species) #Same as table(), but returns in a fancy data frame
@@ -92,14 +101,29 @@ separate()
 ```
 
 ##Analysis of Data
-#Creating Analysis Figures
+#Creating analysis figures
 ```{r}
 summarize(data, sum1 = function1(value1), sum2 = function2(value2)) #Creates a data frame containing a summary of functions. Computes function1 on all variables in value1, then stores the result in sum1, and does that for each subsequent variable.
   n() #Gives number of entries in a set
   n_distinct() #Gives number of distinct variables in a set
   across(c(values), function()) #Computes function() for each variable in c(values)
-  
+```
+
+#Charts and graphs
+```{r}
 hist(data$variable) #Automatically creates a histogram (bar chart) showing values in a vector
+ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
+  aes() #Sets x- and y-axes
+  #Note: format is geom() is its own object being added to the plot object. This also means can add multiple geoms to same plot (e.g. point()+smooth() for scatterplot with trendline)
+  geom_x() #Changes geometry of the plot to be x
+    point #scatter plot
+    boxplot #boxes w/ error
+    smooth #line of best fit
+      (method=x) #change model of trendline
+        lm #fit to linear model (straight line)
+    bar #bar graph (note: no y-axis; lists # entries for each x-axis variable)
+      (stat=identity) #allows y-axis to be specified
+    col #bar graph with specific x- and y-axes
 ```
 
 #Statistics

@@ -61,7 +61,7 @@ life_history %>%
 ```
 
 ```{r}
-
+#Note: options(scipen=999) disables scientific notation for the doc
 ```
 
 ```{r}
@@ -71,7 +71,8 @@ life_history %>%
 ## Scatterplots
 Scatter plots allow for comparisons of two continuous variables.
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x = gestation, y = wean_mass)) + geom_point(na.rm=T) + scale_y_log10() #scale_y_log10 changes scale of y-axis
 ```
 
 ## Boxplots
@@ -81,33 +82,43 @@ glimpse(life_history)
 ```
 
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x=order, y=mass)) + geom_boxplot(na.rm=T) + coord_flip() #coord_flip() flips x- and y-axes
 ```
 
 Remember, you can always use dplyr functions to focus your question, summarize, etc.
 ```{r}
-
+life_history %>% 
+  filter(order != "Cetacea") %>% #filters out whales cuz they too big
+  ggplot(aes(x=order, y=mass)) + geom_boxplot(na.rm=T)
 ```
 
 ## Practice  
 For this practice, let's use the `ElephantsMF` data. These data are from Phyllis Lee, Stirling University, and are related to Lee, P., et al. (2013), "Enduring consequences of early experiences: 40-year effects on survival and success among African elephants (Loxodonta africana)," Biology Letters, 9: 20130011. [kaggle](https://www.kaggle.com/mostafaelseidy/elephantsmf).
 ```{r}
 elephants <- read_csv("data/elephantsMF.csv") %>% clean_names()
+glimpse(elephants)
 ```
 
 1. How many male and female elephants are represented in the data. How would you make a plot of this?
 ```{r}
-
+#use a bar plot
+elephants %>% 
+  ggplot(aes(x = sex)) + geom_bar()
 ```
 
 2. How does the age of elephants compare by sex?
 ```{r}
-
+#box plot
+elephants %>% 
+  ggplot(aes(x = sex, y = age)) + geom_boxplot()
 ```
 
 3. What is the relationship between age and height?
 ```{r}
-
+#scatter plot
+elephants %>% 
+  ggplot(aes(x = age, y = height)) + geom_point()
 ```
 
 ## Aesthetics: Labels
@@ -121,12 +132,25 @@ elephants %>%
 
 The plot looks clean, but it is incomplete. A reader unfamiliar with the data might have a difficult time interpreting the labels. To add custom labels, we use the `labs` command.
 ```{r}
-
+elephants %>% 
+  ggplot(aes(x=age, y=height)) +
+  geom_point() + 
+  geom_smooth(method=lm, se=F) +
+  labs(title = "Elephant Age vs. Height", 
+       x = "Age",
+       y = "Height")
 ```
 
 We can improve the plot further by adjusting the size and face of the text. We do this using `theme()`.
 ```{r}
-
+elephants %>% 
+  ggplot(aes(x=age, y=height)) +
+  geom_point() + 
+  geom_smooth(method=lm, se=F) +
+  labs(title = "Elephant Age vs. Height", 
+       x = "Age",
+       y = "Height") +
+  theme(plot.title = element_text(size=rel(1.25), hjust=.5))
 ```
 
 The `rel()` option changes the relative size of the title to keep things consistent. Adding `hjust` allows control of title position.
@@ -142,12 +166,14 @@ elephants %>%
 ## Other Aesthetics
 There are lots of options for aesthetics. An aesthetic can be assigned to either numeric or categorical data. `fill` is a common grouping option; notice that an appropriate key is displayed when you use one of these options.
 ```{r}
-
+elephants %>% 
+  ggplot(aes(x=sex, fill=sex)) + geom_bar() #fill=sex: add fill color by sex
 ```
 
 `size` adjusts the size of points relative to a continuous variable.
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x=gestation, y=log10(mass), size = mass)) + geom_point(na.rm=T)
 ```
 
 ## Practice

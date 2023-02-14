@@ -115,8 +115,9 @@ hist(data$variable) #Automatically creates a histogram (bar chart) showing value
 ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
   aes() #Sets x- and y-axes
   #Note: format is geom() is its own object being added to the plot object. This also means can add multiple geoms to same plot (e.g. point()+smooth() for scatterplot with trendline)
-  geom_x() #Changes geometry of the plot to be x
+  geom_x(na.rm=) #Changes geometry of the plot to be x
     point #scatter plot
+    jitter #scatter plot with extra noise to variables to space points more evenly
     boxplot #boxes w/ error
     smooth #line of best fit
       (method=x) #change model of trendline
@@ -124,6 +125,9 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
     bar #bar graph (note: no y-axis; lists # entries for each x-axis variable)
       (stat=identity) #allows y-axis to be specified
     col #bar graph with specific x- and y-axes
+  scale_x/y_scalefactor() #scales axis based on scalefactor without changing original data. select x or y, and replace scalefactor with whatever the scale facor should be (e.g. sqrt, log10)
+  labs() #Changes data labels (use title=, x=, y=)
+  theme() #Changes text
 ```
 
 #Statistics

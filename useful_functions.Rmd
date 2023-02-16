@@ -17,7 +17,8 @@ library(naniar) #Helps manage NAs
 ```
 
 ```{r}
-library(ggplot2) #Quickly make/edit charts and graphs
+library(ggplot2) #Quickly make/edit charts and graphs. Included with tidyverse
+
 ```
 
 
@@ -79,12 +80,14 @@ select(data, species, sex, bill_length_mm) #Selects columns
 filter(data, sex == "male") #Selects rows based on whether the variable(s) match the selection criteria
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
 tabyl(data$species) #Same as table(), but returns in a fancy data frame
-group_by(data$species) #Assigns an invisible number to categories in a dataset which then allows other functions to perform actions by category rather than by individual entry. (e.g. male = 0, female = 1, then summarize(avg = mean(height)) will give all male height and all female height)
+group_by(data$species) #Assigns an invisible number to categories in a dataset which then allows other functions to perform actions by category rather than by individual entry. (e.g. male = 0, female = 1, then summarize(avg = mean(height)) will give all male height and all female height). Can group by multiple variables.
 ```
 
 #Adding/removing entries
 ```{r}
-mutate()
+mutate(newcol = val) #Creates new col with values specified by val
+  case_when() #Assigns categorical value to data based on whether it matches the expression found in ()
+    #Syntax: case_when(x < 5.0 & x > 0.0 ~ "value")
 ```
 
 #Creating data structures
@@ -95,8 +98,15 @@ data.frame(data) #Creates a data frame from a dataset (vector, matrix, or existi
 
 #Changing entries
 ```{r}
-pivot_longer(data)
-pivot_wider(data)
+pivot_longer(data, names_to=x, values_to=x) #Pivots data to "long" format. Creates new col with values set to the previous variable names.
+pivot_wider(data, names_from=x, values_from=x) #Pivots data to "wide" format. Uses names_from as names for new cols, and moves values from values_from into cols specified by names_from value. 
+#
+#   Wide:             Long:
+#   name a b c        name letter value
+#   A    1 2 3        A    a      1
+#   B    1 2 3        A    a      1
+#   C    1 2 3        A    a      1
+#                     A    b      2   etc.
 separate()
 ```
 
@@ -114,7 +124,10 @@ summarize(data, sum1 = function1(value1), sum2 = function2(value2)) #Creates a d
 hist(data$variable) #Automatically creates a histogram (bar chart) showing values in a vector
 ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
   aes() #Sets x- and y-axes
-  #Note: format is geom() is its own object being added to the plot object. This also means can add multiple geoms to same plot (e.g. point()+smooth() for scatterplot with trendline)
+    x = #sets x-axis
+    y = #Sets y-axis
+    fill = #Automatically colors values by variable given
+#Note: format is geom() is its own object being added to the plot object. This also means can add multiple geoms to same plot (e.g. point()+smooth() for scatterplot with trendline)
   geom_x(na.rm=) #Changes geometry of the plot to be x
     point #scatter plot
     jitter #scatter plot with extra noise to variables to space points more evenly
@@ -122,9 +135,13 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
     smooth #line of best fit
       (method=x) #change model of trendline
         lm #fit to linear model (straight line)
-    bar #bar graph (note: no y-axis; lists # entries for each x-axis variable)
+    bar #bar graph. lists # entries for each x-axis variable. no y-axis
       (stat=identity) #allows y-axis to be specified
+      (position="dodge") #unstacks bars separated by fill
     col #bar graph with specific x- and y-axes
+    histogram #histogram (groups continuous variables based on value range). no y-axis
+      (bins=n) #specifies # of groups to use
+    density #like histogram, but infinite bins. creates smooth curve. no y-axis
   scale_x/y_scalefactor() #scales axis based on scalefactor without changing original data. select x or y, and replace scalefactor with whatever the scale facor should be (e.g. sqrt, log10)
   labs() #Changes data labels (use title=, x=, y=)
   theme() #Changes text
@@ -142,4 +159,8 @@ count()
 tally()
 is.na(data) #Logically evaluates each value. Returns T if value == NA, F if value has a value.
 ```
+
+##Useful Links
+- [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+- [`ggplot` themes](https://ggplot2.tidyverse.org/reference/ggtheme.html)
 

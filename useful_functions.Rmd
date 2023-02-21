@@ -18,7 +18,9 @@ library(naniar) #Helps manage NAs
 
 ```{r}
 library(ggplot2) #Quickly make/edit charts and graphs. Included with tidyverse
-
+library(RColorBrewer) #Adds color palettes to ggplot
+library(paletteer) #Adds custom colors to ggplot
+library(ggthemes) #Adds plot themes to ggplot
 ```
 
 
@@ -146,8 +148,16 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
       (bins=n) #specifies # of groups to use
     density #like histogram, but infinite bins. creates smooth curve. no y-axis
   scale_x/y_scalefactor() #scales axis based on scalefactor without changing original data. select x or y, and replace scalefactor with whatever the scale facor should be (e.g. sqrt, log10)
+  facet_x() #Prints a series of plots separated by a specified variable
+    wrap(~a) #Prints plots side-by-side
+    grid(a~b) #Makes a grid of plots sorted by x=a, y=b
   labs() #Changes data labels (use title=, x=, y=)
-  theme() #Changes text
+  theme() #Changes text in plot
+    axis.text.x/y = element_text() #Changes text on axes as specified by element_text()
+  scale_color_brewer() #Adds point color from RColorBrewer
+  scale_fill_brewer() #Adds fill color from RColorBrewer
+  scale_fill_manual(values = ) #Adds custom fill color via paletteer (palette must be assigned to a variable)
+  x/y_lim(lim1, lim2) #Sets x/y bounds of plot to be lim1/lim2
   #Options for any of these include:
     color = #Changes line color/primary color
     fill =  #Changes fill color

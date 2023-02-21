@@ -126,7 +126,9 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
   aes() #Sets x- and y-axes
     x = #sets x-axis
     y = #Sets y-axis
-    fill = #Automatically colors values by variable given
+    fill = #Automatically sets fill color by variable given
+    color = #Automatically sets primary color by variable (or specify a "color")
+    group = 
 #Note: format is geom() is its own object being added to the plot object. This also means can add multiple geoms to same plot (e.g. point()+smooth() for scatterplot with trendline)
   geom_x(na.rm=) #Changes geometry of the plot to be x
     point #scatter plot
@@ -135,6 +137,7 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
     smooth #line of best fit
       (method=x) #change model of trendline
         lm #fit to linear model (straight line)
+    line #connect-the-dots line
     bar #bar graph. lists # entries for each x-axis variable. no y-axis
       (stat=identity) #allows y-axis to be specified
       (position="dodge") #unstacks bars separated by fill
@@ -145,6 +148,10 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
   scale_x/y_scalefactor() #scales axis based on scalefactor without changing original data. select x or y, and replace scalefactor with whatever the scale facor should be (e.g. sqrt, log10)
   labs() #Changes data labels (use title=, x=, y=)
   theme() #Changes text
+  #Options for any of these include:
+    color = #Changes line color/primary color
+    fill =  #Changes fill color
+    alpha = #Changes opacity
 ```
 
 #Statistics

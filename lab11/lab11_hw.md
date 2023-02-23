@@ -214,6 +214,16 @@ gapminder %>%
 
 **10. Make one plot of your choice that uses faceting!**
 
+```r
+#Show whether the trend between life expectancy and gdp per capita varies by continent
+gapminder %>% 
+  ggplot(aes(x=gdpPercap, y = lifeExp, color=continent)) +
+  geom_point() +
+  facet_wrap(~continent) 
+```
+
+![](lab11_hw_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
 ## Push your final code to GitHub!
 
 Please be sure that you check the `keep md` file in the knit preferences.

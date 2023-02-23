@@ -157,7 +157,7 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
   scale_color_brewer() #Adds point color from RColorBrewer
   scale_fill_brewer() #Adds fill color from RColorBrewer
   scale_fill_manual(values = ) #Adds custom fill color via paletteer (palette must be assigned to a variable)
-  x/y_lim(lim1, lim2) #Sets x/y bounds of plot to be lim1/lim2
+  xlim/ylim(lim1, lim2) #Sets x/y bounds of plot to be lim1/lim2
   #Options for any of these include:
     color = #Changes line color/primary color
     fill =  #Changes fill color

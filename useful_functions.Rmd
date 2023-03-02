@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) #Does a lot of stuff that makes data outputs neater
 library(janitor) #Helps clean variable names
 library(naniar) #Helps manage NAs
+library(shiny) #Useful for creating apps
 ```
 
 ```{r}
@@ -170,6 +171,25 @@ mean() #Arithmetic mean
 stats::sd() #Standard deviation
 ```
 
+##Apps
+```{r}
+#Basic shiny app structure:
+library(shiny)
+
+ui <- fluidPage()
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+###
+fluidPage(elements) #Sets up the UI page. `elements` include:
+  selectInput("id", "label", choices = c(...), selected = "var1") #Creates an input selection box
+  #id:
+  #label: Text label above selection box
+  #choices: Vector containing different selection options
+  #selected: Option that is selected by default
+```
+
 ##Uncategorized
 ```{r}
 count()
@@ -180,4 +200,5 @@ is.na(data) #Logically evaluates each value. Returns T if value == NA, F if valu
 ##Useful Links
 - [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 - [`ggplot` themes](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+- [shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
 

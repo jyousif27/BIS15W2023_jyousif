@@ -184,10 +184,11 @@ shinyApp(ui, server)
 ###
 fluidPage(elements) #Sets up the UI page. `elements` include:
   selectInput("id", "label", choices = c(...), selected = "var1") #Creates an input selection box
-  #id:
+  #id: variable id of selection
   #label: Text label above selection box
   #choices: Vector containing different selection options
   #selected: Option that is selected by default
+  radioButtons("id", "label", choices = c(...))
 ```
 
 ##Uncategorized

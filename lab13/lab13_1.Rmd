@@ -59,7 +59,25 @@ spider_list[[3]]
 ## Practice
 1. Getting an idea of the structure of lists is a bit tricky, especially when there are many elements. Try exploring the elements in `spider_list` using names(), str(), or glimpse(). For names(), you will need to specify an element using [[]].  
 ```{r}
-
+glimpse(spider_list[[1]])
+```
+## Naming List Elements
+```{r}
+names <- list.files(path="data/spiders", pattern=" .csv")
+```
+```{r}
+names_list <- strsplit(names, split = " .csv") #Removes .csv from end of file name
+```
+```{r}
+names_vec <- unlist(names_list)
+```
+```{r}
+names(spider_list) <- names_vec
+names(spider_list)
+```
+## Practice
+```{r}
+spider_list$Butte
 ```
 
 ## Merging Files
@@ -95,34 +113,34 @@ The general syntax for joins is...
 Where did customers 3 and 4 go?
 ```{r}
 inner_exampleDF <- inner_join(table_A, table_B, by="customer_ID")
-inner_exampleDF
+inner_exampleDF #Must be in both datasets
 ```
 
 `left_join`
 Where did customer 4 go? Notice the missing data for customer 3.
 ```{r}
 left_exampleDF <- left_join(table_A, table_B, by="customer_ID")
-left_exampleDF
+left_exampleDF #Must be in first(leftmost) dataset
 ```
 
 `right_join`
 Where did customer 3 go? Notice the missing data for customer 4.
 ```{r}
 right_exampleDF <- right_join(table_A, table_B, by="customer_ID")
-right_exampleDF
+right_exampleDF #Must be in last(rightmost) dataset
 ```
 
 `full_join`
 ```{r}
 full_exampleDF <- full_join(table_A, table_B, by="customer_ID")
-full_exampleDF
+full_exampleDF #Must be in either dataset
 ```
 
 `anti_join`
 Provides the rows in the first table for which there are not matching values in the second table.
 ```{r}
 anti_exampleDF <- anti_join(table_A, table_B, by="customer_ID")
-anti_exampleDF
+anti_exampleDF #Must be in first dataset and not second
 ```
 
 ## Joining the spider data
@@ -190,7 +208,11 @@ dateformat5 <- "20200922 170000"
 ## Practice 
 1. Convert each of the examples above using lubridate.
 ```{r}
-
+ymd(dateformat1)
+mdy(dateformat2)
+dmy(dateformat3)
+mdy_hms(dateformat4)
+ymd_hms(dateformat5)
 ```
 
 ## A few more tricks...

@@ -114,7 +114,11 @@ ggmap(grizz_map)
 
 3. Build a final map that overlays the recorded observations of grizzly bears in Alaska.
 ```{r}
-ggmap(grizz_map) +
+ggmap(get_map(
+  make_bbox(range(grizzly$longitude), range(grizzly$latitude), f=0.05),
+  maptype = "terrain",
+  source = "stamen"
+  )) +
   geom_point(data = grizzly, aes(longitude, latitude)) +
   labs(title = "Grizzly Range")
 ```

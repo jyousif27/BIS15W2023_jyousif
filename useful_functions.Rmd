@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) #Does a lot of stuff that makes data outputs neater
 library(janitor) #Helps clean variable names
 library(naniar) #Helps manage NAs
+library(lubridate) #Standardizes date format
 library(shiny) #Useful for creating apps
 ```
 
@@ -75,6 +76,11 @@ colnames(data) <- c("name1", "name2", "...") #Assigns the values of names to be 
 
 na_if(data, "-999") #If a value matches the value in quotes, replace it with an NA
 ```
+#Formatting dates
+```{r}
+dmy(date) #Converts date to standard format Y-M-D which R recofgnizes as a date. Use dmy() if date is currently in dmy format, use mdy() if date is in mdy format, use ydm if in ydm format, etc.
+dmy_hms(datetime) #Same as above but includes hour/minute/second. Outputs in Y-M-D, H:M:S UTC
+```
 
 #Selecting data subsets
 ```{r}
@@ -86,13 +92,6 @@ tabyl(data$species) #Same as table(), but returns in a fancy data frame
 group_by(data$species) #Assigns an invisible number to categories in a dataset which then allows other functions to perform actions by category rather than by individual entry. (e.g. male = 0, female = 1, then summarize(avg = mean(height)) will give all male height and all female height). Can group by multiple variables.
 ```
 
-#Adding/removing entries
-```{r}
-mutate(newcol = val) #Creates new col with values specified by val
-  case_when() #Assigns categorical value to data based on whether it matches the expression found in ()
-    #Syntax: case_when(x < 5.0 & x > 0.0 ~ "value")
-```
-
 #Creating data structures
 ```{r}
 c("value1, value2, value3") #Creates a vector from data
@@ -101,6 +100,10 @@ data.frame(data) #Creates a data frame from a dataset (vector, matrix, or existi
 
 #Changing entries
 ```{r}
+mutate(newcol = val) #Creates new col with values specified by val
+  case_when() #Assigns categorical value to data based on whether it matches the expression found in ()
+    #Syntax: case_when(x < 5.0 & x > 0.0 ~ "value")
+  
 pivot_longer(data, names_to=x, values_to=x) #Pivots data to "long" format. Creates new col with values set to the previous variable names.
 pivot_wider(data, names_from=x, values_from=x) #Pivots data to "wide" format. Uses names_from as names for new cols, and moves values from values_from into cols specified by names_from value. 
 #
@@ -110,7 +113,15 @@ pivot_wider(data, names_from=x, values_from=x) #Pivots data to "wide" format. Us
 #   B    1 2 3        A    a      1
 #   C    1 2 3        A    a      1
 #                     A    b      2   etc.
+
 separate()
+
+x_join(data1, data2, ...) #Joins multiple datasets in manner specified by x
+  #inner: Keeps entries that appear in all datasets
+  #left: Keeps entries that appear in first listed dataset
+  #right: Keeps entries that appear in last listed dataset
+  #full: Keeps all entries
+  #anti: Keeps entries that do not appear in all datasets (opposite of inner)
 ```
 
 ##Analysis of Data
@@ -122,10 +133,18 @@ summarize(data, sum1 = function1(value1), sum2 = function2(value2)) #Creates a d
   across(c(values), function()) #Computes function() for each variable in c(values)
 ```
 
+#Statistics
+```{r}
+mean() #Arithmetic mean
+stats::sd() #Standard deviation
+range() #Min and max values
+```
+
 #Charts and graphs
 ```{r}
 hist(data$variable) #Automatically creates a histogram (bar chart) showing values in a vector
-ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
+
+ggplot(data, aes(aes=vars...)) + layer_xx() #Creates plots via layering
   aes() #Sets x- and y-axes
     x = #sets x-axis
     y = #Sets y-axis
@@ -165,30 +184,42 @@ ggplot(data, aes(aes=vars...))+geom_xx() #Creates plots via layering
     alpha = #Changes opacity
 ```
 
-#Statistics
+#Maps
 ```{r}
-mean() #Arithmetic mean
-stats::sd() #Standard deviation
+ggmap(get_map(...)) + layer_xx #Prints a map via layering
+  get_map(bbox, maptype = "type", source = "source") #Creates the map
+    #bbox:
+    make_bbox(c(xmin, xmax), c(ymin, ymax), f=x) #Sets bounding box for what part of map to use.
+              #f: margin around data range
+    #maptype:
+    #source:
+  geom_point() #Same as ggplot
 ```
 
 ##Apps
+#Shiny
 ```{r}
 #Basic shiny app structure:
+#####
 library(shiny)
 
-ui <- fluidPage()
+ui <- fluidPage() #Note: elements appear in order listed
 
 server <- function(input, output, session) {}
 
 shinyApp(ui, server)
-###
-fluidPage(elements) #Sets up the UI page. `elements` include:
+######
+fluidPage(elements) #Sets up the UI of the page. `elements` include:
   selectInput("id", "label", choices = c(...), selected = "var1") #Creates an input selection box
   #id: variable id of selection
   #label: Text label above selection box
   #choices: Vector containing different selection options
   #selected: Option that is selected by default
   radioButtons("id", "label", choices = c(...))
+  titlePanel("Title") #Adds title to page
+  helpText("text") #Adds grey text block
+###
+  function()
 ```
 
 ##Uncategorized
@@ -196,7 +227,19 @@ fluidPage(elements) #Sets up the UI page. `elements` include:
 count()
 tally()
 is.na(data) #Logically evaluates each value. Returns T if value == NA, F if value has a value.
+list.files(path = "filepath", pattern = "x", full.names = T/F) #Lists all files in a folder. Outputs a list
+  #pattern: string to search for in file name
+  #full.names: Bool; if true, prints full filepath (from working directory)
+lapply(data, function) #Applies function to each element in data (data must be a list)
+
 ```
+
+##Lists
+```{r}
+list[[n]] #Returns n-most element in list (e.g. n=3, returns 3rd element)
+strsplit(list, split = "x") #Removes "x" from end of each element
+```
+
 
 ##Useful Links
 - [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)

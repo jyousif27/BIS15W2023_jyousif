@@ -1,11 +1,11 @@
 ---
 title: "Lab 13 Homework"
-author: "Please Add Your Name Here"
+author: "Jacob Yousif"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: no
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +26,8 @@ library(ggmap)
 ``` 
 
 ```{r}
-library(albersusa)
+#install.packages("albersusa") returns error saying package is not available for this version of R
+#library(albersusa)
 ```
 
 ## Load the Data
@@ -38,35 +39,93 @@ We will use two separate data sets for this homework.
 
 1. Load the `grizzly` data and evaluate its structure.  
 
+```{r}
+grizzly <- read_csv("data/bear-sightings.csv")
+glimpse(grizzly)
+```
 
 2. Use the range of the latitude and longitude to build an appropriate bounding box for your map.  
 
+```{r}
+grizzly_bbox <- make_bbox(
+    range(grizzly$longitude),
+    range(grizzly$latitude),
+    f=0.05)
+grizzly_bbox
+```
 
 3. Load a map from `stamen` in a terrain style projection and display the map.  
 
+```{r}
+grizzly_map <- get_map(
+  grizzly_bbox, 
+  maptype = "terrain",
+  source = "stamen")
+ggmap(grizzly_map)
+```
 
 4. Build a final map that overlays the recorded observations of grizzly bears in Alaska.  
 
+```{r}
+ggmap(grizzly_map) +
+  geom_point(data = grizzly, aes(longitude, latitude)) +
+  labs(title = "Grizzly Sightings in Alaksa", x="Longitude", y="Latitude")
+```
 
 Let's switch to the wolves data. Brandell, Ellen E (2021), Serological dataset and R code for: Patterns and processes of pathogen exposure in gray wolves across North America, Dryad, [Dataset](https://doi.org/10.5061/dryad.5hqbzkh51).  
 
 5. Load the data and evaluate its structure.  
 
+```{r}
+wolves <- read_csv("data/wolves_data/wolves_dataset.csv")
+glimpse(wolves)
+```
 
-6. How many distinct wolf populations are included in this study? Mae a new object that restricts the data to the wolf populations in the lower 48 US states.  
+6. How many distinct wolf populations are included in this study? Make a new object that restricts the data to the wolf populations in the lower 48 US states.  
 
+```{r}
+wolves %>% count(pop) #17 total distinct populations
+wolves_cont_us <- wolves %>% 
+  filter(pop=="MT"|pop=="YNP"|pop=="GTNP"|pop=="SNF"|pop=="MI"|pop=="MEXICAN") #now restricted to 5 populations
+```
 
 7. Use the range of the latitude and longitude to build an appropriate bounding box for your map.  
 
+```{r}
+wolves_bbox <- make_bbox(range(wolves_cont_us$long), range(wolves_cont_us$lat), f=0.25)
+wolves_bbox
+```
 
 8.  Load a map from `stamen` in a `terrain-lines` projection and display the map.  
 
+```{r}
+wolves_map <- get_map(
+  wolves_bbox, 
+  maptype = "terrain-lines",
+  source = "stamen")
+ggmap(wolves_map)
+```
 
 9. Build a final map that overlays the recorded observations of wolves in the lower 48 states.  
 
+```{r}
+wolves_cont_us %>% 
+  select(pop, lat, long) %>% 
+  arrange(desc(lat))
+```
+
+```{r}
+ggmap(wolves_map) +
+  geom_point(data = wolves_cont_us, aes(long, lat))
+```
 
 10. Use the map from #9 above, but add some aesthetics. Try to `fill` and `color` by population.  
 
+```{r}
+ggmap(wolves_map) +
+  geom_point(data = wolves_cont_us, aes(long, lat, color=pop)) + #fill omitted b/c it doesn't seem to do anything
+  labs(title="Wolf Populations in the Continental U.S.", x="Longitude", y="Latitude")
+```
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 

@@ -25,7 +25,6 @@ library(paletteer) #Adds custom colors to ggplot
 library(ggthemes) #Adds plot themes to ggplot
 ```
 
-
 ```{r}
 #This is just a practice dataset
 library(palmerpenguins)
@@ -34,7 +33,7 @@ library(palmerpenguins)
 ```{r}
 data <- palmerpenguins::penguins #Sets up data as a practice dataset
 ```
-Note: many of he commands in this doc will not run properly. This is because the data has been messed up by all the previous commands.
+Note: many of the commands in this doc will not run properly. This is because the data has been messed up by all the previous commands and/or the commands have nonexistent variable names/parametes for demo purposes.
 
 ##Examining Data Tables
 #Bring datasets into R
@@ -61,9 +60,6 @@ miss_var_summary(data) #Displays how many NAs per variable, as well as percentag
 table(data$species) #Returns a matrix that shows how many of each  discrete value are represented in a vector
 tabyl(data$species) #Same as table(), but returns in a fancy data frame
 #Note: can do table/yl(data$species) or (data, species). The latter returns a nicer variable name.
-```
-```{r}
-colnames(data)
 ```
 
 ##Manipulating Data
@@ -171,7 +167,7 @@ ggplot(data, aes(aes=vars...)) + layer_xx() #Creates plots via layering
   facet_x() #Prints a series of plots separated by a specified variable
     wrap(~a) #Prints plots side-by-side
     grid(a~b) #Makes a grid of plots sorted by x=a, y=b
-  labs() #Changes data labels (use title=, x=, y=)
+  labs(title="title", x="x-axis", y="y-axis") #Changes data labels
   theme() #Changes text in plot
     axis.text.x/y = element_text() #Changes text on axes as specified by element_text()
   scale_color_brewer() #Adds point color from RColorBrewer
@@ -191,9 +187,10 @@ ggmap(get_map(...)) + layer_xx #Prints a map via layering
     #bbox:
     make_bbox(c(xmin, xmax), c(ymin, ymax), f=x) #Sets bounding box for what part of map to use.
               #f: margin around data range
-    #maptype:
-    #source:
-  geom_point() #Same as ggplot
+    #maptype: sets the background image used as the map
+    #source: specifies a source to get maptype from
+  geom_point(data = data, aes(x_var, y_var)) #Same function as ggplot with additional params
+  labs() #same as ggplot
 ```
 
 ##Apps
@@ -231,7 +228,6 @@ list.files(path = "filepath", pattern = "x", full.names = T/F) #Lists all files 
   #pattern: string to search for in file name
   #full.names: Bool; if true, prints full filepath (from working directory)
 lapply(data, function) #Applies function to each element in data (data must be a list)
-
 ```
 
 ##Lists

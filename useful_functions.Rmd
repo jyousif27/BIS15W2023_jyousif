@@ -196,8 +196,8 @@ ggmap(get_map(...)) + layer_xx #Prints a map via layering
 ##Apps
 #Shiny
 ```{r}
-#Basic shiny app structure:
-#####
+#Basic shiny app structure (can get by typing shinyapp):
+##### 
 library(shiny)
 
 ui <- fluidPage() #Note: elements appear in order listed

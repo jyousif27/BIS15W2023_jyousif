@@ -141,7 +141,7 @@ range() #Min and max values
 hist(data$variable) #Automatically creates a histogram (bar chart) showing values in a vector
 
 ggplot(data, aes(aes=vars...)) + layer_xx() #Creates plots via layering
-  aes() #Sets x- and y-axes
+  aes() #Sets x- and y-axes, and other aesthetic things
     x = #sets x-axis
     y = #Sets y-axis
     fill = #Automatically sets fill color by variable given
